@@ -12,6 +12,8 @@
 //	GetInt64("hw.ncpu")		// get the number of active CPUs
 //	GetString("kern.hostname")	// get the hostname
 //
+// You might want to use the "syscall" standard package that implements Sysctl*
+// functions as well.
 package sysctl
 
 import (
