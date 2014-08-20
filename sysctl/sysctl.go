@@ -49,7 +49,7 @@ func GetInt64(name string) (value int64, err error) {
 func GetString(name string) (value string, err error) {
 	oldlen := C.size_t(0)
 
-	// Call C.sysctlbyname once to get the required size ofthe buffer.
+	// Call C.sysctlbyname once to get the required size of the buffer.
 	_, err = C.sysctlbyname(C.CString(name), nil, &oldlen, nil, 0)
 	if err != nil {
 		return
