@@ -29,7 +29,7 @@ import "C"
 // BUG(blabber): Endianness is hardcoded to Little Endian
 var endianness = binary.LittleEndian
 
-// Gets a numeric value from sysctl(3)
+// GetInt64 gets a numeric value from sysctl(3) by name
 func GetInt64(name string) (value int64, err error) {
 	oldlen := C.size_t(8)
 	oldp := make([]byte, 8)
@@ -47,7 +47,7 @@ func GetInt64(name string) (value int64, err error) {
 	return
 }
 
-// Gets a string value from sysctl(3)
+// GetString gets a string value from sysctl(3) by name
 func GetString(name string) (value string, err error) {
 	oldlen := C.size_t(0)
 
