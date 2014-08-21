@@ -14,11 +14,14 @@
 //
 // You might want to use the "syscall" standard package that implements Sysctl*
 // functions as well.
+//
+// On non-FreeBSD systems this package will panic at init time.
 package sysctl
 
 import (
 	"bytes"
 	"encoding/binary"
+	"runtime"
 	"unsafe"
 )
 
@@ -28,6 +31,13 @@ import "C"
 
 // BUG(blabber): Endianness is hardcoded to Little Endian
 var endianness = binary.LittleEndian
+
+// init checks if runtime.GOOS is supported by this package and panics otherwise.
+func init() {
+	if runtime.GOOS != "freebsd" {
+		panic(`Package "sysctl" won't work on non-FreeBSD systems.`)
+	}
+}
 
 // GetInt64 gets a numeric value from sysctl(3) by name
 func GetInt64(name string) (value int64, err error) {
