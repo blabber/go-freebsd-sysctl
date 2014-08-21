@@ -31,7 +31,7 @@ var int64Tests = []string{
 }
 
 func execSysctl(name string) (out string, err error) {
-	o, err := exec.Command(SYSCTLCMD, SYSCTLCMDFLAG , name).Output()
+	o, err := exec.Command(SYSCTLCMD, SYSCTLCMDFLAG, name).Output()
 	return strings.TrimRight(string(o), "\n"), err
 }
 
