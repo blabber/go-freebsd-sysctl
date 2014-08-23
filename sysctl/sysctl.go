@@ -19,8 +19,6 @@
 package sysctl
 
 import (
-	"bytes"
-	"encoding/binary"
 	"runtime"
 	"unsafe"
 )
@@ -28,9 +26,6 @@ import (
 // #include <sys/types.h>
 // #include <sys/sysctl.h>
 import "C"
-
-// BUG(blabber): Endianness is hardcoded to Little Endian
-var endianness = binary.LittleEndian
 
 // init checks if runtime.GOOS is supported by this package and panics otherwise.
 func init() {
@@ -42,18 +37,10 @@ func init() {
 // GetInt64 gets a numeric value from sysctl(3) by name
 func GetInt64(name string) (value int64, err error) {
 	oldlen := C.size_t(8)
-	oldp := make([]byte, 8)
-
-	_, err = C.sysctlbyname(C.CString(name), unsafe.Pointer(&oldp[0]), &oldlen, nil, 0)
+	_, err = C.sysctlbyname(C.CString(name), unsafe.Pointer(&value), &oldlen, nil, 0)
 	if err != nil {
 		return
 	}
-
-	br := bytes.NewReader(oldp)
-	if err = binary.Read(br, endianness, &value); err != nil {
-		return
-	}
-
 	return
 }
 
