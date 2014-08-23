@@ -77,7 +77,7 @@ func TestInt64s(t *testing.T) {
 		}
 
 		t.Logf("%v %v %v => %v", SYSCTLCMD, SYSCTLCMDFLAG, name, expected)
-		t.Logf("GetString(%q) => %v", name, actual)
+		t.Logf("GetInt64(%q) => %v", name, actual)
 
 		if actual != expected {
 			t.Fatalf("%v != %v", actual, expected)
