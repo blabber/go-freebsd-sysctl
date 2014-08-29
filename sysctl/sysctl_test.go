@@ -14,11 +14,11 @@ import (
 )
 
 const (
-	SYSCTLCMD     = "/sbin/sysctl"
-	SYSCTLCMDFLAG = "-n"
+	sysctlCmd     = "/sbin/sysctl"
+	sysctlCmdFlag = "-n"
 )
 
-const ERRORNAME = "non.existent"
+const errorName = "non.existent"
 
 var stringTests = []string{
 	"kern.hostname",
@@ -31,7 +31,7 @@ var int64Tests = []string{
 }
 
 func execSysctl(name string) (out string, err error) {
-	o, err := exec.Command(SYSCTLCMD, SYSCTLCMDFLAG, name).Output()
+	o, err := exec.Command(sysctlCmd, sysctlCmdFlag, name).Output()
 	return strings.TrimRight(string(o), "\n"), err
 }
 
@@ -49,7 +49,7 @@ func TestStrings(t *testing.T) {
 			t.Fatalf("call to GetString(%q) failed: %v\n", name, err)
 		}
 
-		t.Logf("%v %v %v => %q", SYSCTLCMD, SYSCTLCMDFLAG, name, expected)
+		t.Logf("%v %v %v => %q", sysctlCmd, sysctlCmdFlag, name, expected)
 		t.Logf("GetString(%q) => %q", name, actual)
 
 		if actual != expected {
@@ -76,7 +76,7 @@ func TestInt64s(t *testing.T) {
 			t.Fatalf("call to GetInt64(%q) failed: %v\n", name, err)
 		}
 
-		t.Logf("%v %v %v => %v", SYSCTLCMD, SYSCTLCMDFLAG, name, expected)
+		t.Logf("%v %v %v => %v", sysctlCmd, sysctlCmdFlag, name, expected)
 		t.Logf("GetInt64(%q) => %v", name, actual)
 
 		if actual != expected {
@@ -86,15 +86,15 @@ func TestInt64s(t *testing.T) {
 }
 
 func TestErrorInt64(t *testing.T) {
-	_, err := GetInt64(ERRORNAME)
+	_, err := GetInt64(errorName)
 	if err == nil {
-		t.Fatalf("call to GetInt64(%q) succeeded without error", ERRORNAME)
+		t.Fatalf("call to GetInt64(%q) succeeded without error", errorName)
 	}
 }
 
 func TestErrorString(t *testing.T) {
-	_, err := GetString(ERRORNAME)
+	_, err := GetString(errorName)
 	if err == nil {
-		t.Fatalf("call to GetString(%q) succeeded without error", ERRORNAME)
+		t.Fatalf("call to GetString(%q) succeeded without error", errorName)
 	}
 }
