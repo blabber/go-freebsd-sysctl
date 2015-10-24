@@ -1,3 +1,6 @@
+// +build freebsd darwin
+// +build cgo
+
 // "THE BEER-WARE LICENSE" (Revision 42):
 // <tobias.rehbein@web.de> wrote this file. As long as you retain this notice
 // you can do whatever you want with this stuff. If we meet some day, and you
@@ -15,24 +18,16 @@
 // You might want to use the "syscall" standard package that implements Sysctl*
 // functions as well.
 //
-// On non-FreeBSD systems this package will panic at init time.
+// On non-FreeBSD or non-Darwin systems this package will not build
 package sysctl
 
 import (
-	"runtime"
 	"unsafe"
 )
 
 // #include <sys/types.h>
 // #include <sys/sysctl.h>
 import "C"
-
-// init checks if runtime.GOOS is supported by this package and panics otherwise.
-func init() {
-	if runtime.GOOS != "freebsd" {
-		panic(`Package "sysctl" won't work on non-FreeBSD systems.`)
-	}
-}
 
 // GetInt64 gets a numeric value from sysctl(3) by name
 func GetInt64(name string) (value int64, err error) {
