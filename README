@@ -1,0 +1,8 @@
+Package sysctl provides a basic read-only interface to the FreeBSD sysctl(3)
+library.
+
+It allows you to retrieve int64 and string values. Tables are not supported.
+
+     GetInt64("hw.ncpu")	// get the number of active CPUs
+     GetString("kern.hostname")	// get the hostname
+
